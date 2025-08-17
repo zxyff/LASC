@@ -1,6 +1,8 @@
 #  Unveiling Ethereum Mixing Services Using Enhanced Graph Structure Learning
 
+This is a Pytorch implementation of LASC, as described in the following:
 
+> Unveiling Ethereum Mixing Services Using Enhanced Graph Structure Learning
 
 ## Requirements
 
@@ -15,10 +17,10 @@
 **软件环境:**
 
 - **操作系统:** Linux
-- **编程语言:** Python 3.8
-- **深度学习框架:** PyTorch 1.9
-- **GPU 计算平台:** CUDA 11.1
-- **科学计算库:** NumPy 1.24.4
+- Python 3.8
+- PyTorch 1.8
+-  CUDA 11.1
+- NumPy 1.24.4
 - NetworkX 3.1
 
 *(注: 此列表仅包含部分依赖项)*
@@ -36,24 +38,24 @@ All model training and testing were conducted on a Linux machine with the follow
 **Software Environment:**
 
 - **Operating System:** Linux
-- **Programming Language:** Python 3.8
-- **Deep Learning Framework:** PyTorch 1.9
-- **GPU Computing Platform:** CUDA 11.1
-- **Scientific Computing Library:** NumPy 1.24.4
+- Python 3.8
+- PyTorch 1.8
+- CUDA 11.1
+- NumPy 1.24.4
 - NetworkX 3.1
 
 *(Note: This list represents a portion of the dependencies)*
 
 ## Dataset
 
-我们从 2019 年 12 月 15 日至 2022 年 8 月 8 日在以太坊主网上对真实交易进行了实验。在此期间，Tornado Cash 运行正常，没有受到任何制裁。我们从以太坊客户端 Geth 收集了约 817,500 笔原始 Tornado Cash 交易，其中内部交易 517,733 笔，外部交易 299,701 笔，数据收集过程遵循了第六节中提出的方法。表四展示了 Tornado Cash 核心合约的收集结果。如表四所示，43,218 个账户发起了 153,073 笔存款交易，而只有 4151 个账户发起了 138,278 笔取款交易。在混合数据准备阶段之后，我们得到了一个包含 272,236 条记录和 83,089 个账户的真实混合交易数据集，以及一个包含 **949 个混合账户对的真实数据集**。
+我们从 2019 年 12 月 15 日至 2022 年 8 月 8 日在以太坊主网上进行了真实交易实验。在此期间，Tornado Cash 正常运作且未受任何制裁。通过以太坊客户端 Geth，我们共收集了约 817,500 笔原始 Tornado Cash 交易，其中包含 517,733 笔内部交易和 299,701 笔外部交易。数据收集过程严格遵循第六节提出的方法框架。表四展示了 Tornado Cash 核心合约的统计结果：43,218 个独立账户发起了 153,073 笔存款交易，而仅有 4,151 个账户发起了 138,278 笔取款交易。在混合数据准备阶段完成后，我们获得了包含 **272,236 条记录**和 **83,089 个账户**的真实混合交易数据集，以及包含 **949 个混合账户对**的核心真实数据集。
 
- We experimented with real transactions on the Ethereum mainnet from December 15, 2019, to August 8, 2022, during which Tornado Cash worked properly without sanctions. Approximately 817,500 raw Tornado Cash transactions were collected from the Ethereum client Geth, with internal and external transactions of 517,733 and 299,701, respectively, following the components of the proposed method in Section VI. Table IV shows the collection results of Tornado Cash core contracts. As seen in Table IV, 43,218 accounts initiated 153,073 deposit transactions, while only 4151 accounts created 138,278 withdrawal transactions. After the mixing data preparation stage, we derived a real mixing transaction dataset containing 272,236 records and 83,089 accounts, as well as **a**
+ We experimented with real transactions on the Ethereum mainnet from December 15, 2019, to August 8, 2022, during which Tornado Cash worked properly without sanctions. Approximately 817,500 raw Tornado Cash transactions were collected from the Ethereum client Geth, with internal and external transactions of 517,733 and 299,701, respectively, following the components of the proposed method in Section VI. Table IV shows the collection results of Tornado Cash core contracts. As seen in Table IV, 43,218 accounts initiated 153,073 deposit transactions, while only 4151 accounts created 138,278 withdrawal transactions. After the mixing data preparation stage, we derived a real mixing transaction dataset containing **272,236 records** and **83,089 accounts**, as well as **a**
 **ground-truth dataset of 949 mixing account pairs**.
 
-合约地址集：
+Contract address set：
 
-| 合约                               | 地址                                       |
+| Contract                           | Address                                    |
 | ---------------------------------- | ------------------------------------------ |
 | 0.1 ETH                            | 0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc |
 | 1 ETH                              | 0x47CE0C6eD5B0Ce3d3A51fdb1C52DC66a7c3c2936 |
@@ -72,30 +74,205 @@ All model training and testing were conducted on a Linux machine with the follow
 
 
 
-
-
 ## How to Run
 
-1. Mixing Data Preparation
+### 1. Mixing Data Preparation-中
 
-   RawData Collection:运行 Geth(Geth 链接)同步区块数据，并利用 EthereumETL(ETL链接)得到解析数据;利用合约地址集进行匹配，分别得到 TC和 ENS 原始数据集。
-   外部交易格式内部交易格式:
-   -Transfer Path Restoration:6 个算法-》真实用户
-   Label Account Extraction+ Ground-Truth Dataset Construction由于 ENS 原始数据集庞大，提供借助区块链浏览器数据的标签提取简易方法
+#### RawData Collection:
 
-   
+运行 Geth（https://geth.ethereum.org/）同步区块数据，并利用 EthereumETL（https://ethereum-etl.readthedocs.io/）得到解析数据;利用合约地址集进行匹配，分别得到 Tornado Cash 和 ENS 原始数据集。原始数据集样例如下。
+外部交易样例:
 
-2. Mixing Transfer Graph Construction手动，图结构，原始 100 维特征，再用Pearson 系数+VIF到75 维，PCA降到 32维
+| blockNumber | timestamp | transactionHash                                              | from                                       | to                                         | toCreate | fromIsContract | toIsContract | value | gasLimit | gasPrice | gasUsed | callingFunction | isError | eip2718type | baseFeePerGas | maxFeePerGas | maxPriorityFeePerGas |
+| ----------- | --------- | ------------------------------------------------------------ | ------------------------------------------ | ------------------------------------------ | -------- | -------------- | ------------ | ----- | -------- | -------- | ------- | --------------- | ------- | ----------- | ------------- | ------------ | -------------------- |
+| 9117152     | 1.58E+09  | 0xcfa3a64a54e096eb23d808fa75f949999ec79eea2a90781c5ef31bc6686ef69a | 0x0039f22efb07a647557c7c5d17854cfd6d489ef3 | 0x12d66f87a04a9e220743712ce6d9bb1b5616b8fc | None     | 0              | 1            | 1E+17 | 1000000  | 1.38E+10 | 981887  | 0xb214faa5      | None    | None        | None          | None         | None                 |
 
-3.  Mixing Accounts Correlation
+内部交易样例：
 
-   ```python
-   python main.py
-   ```
+| Transaction Hash                                             | Blockno | UnixTimestamp | DateTime (UTC) | ParentTxFrom                               | ParentTxTo                                 | ParentTxETH_Value | From                                       | TxTo                                       | ContractAddress | Value_IN(ETH) | Value_OUT(ETH) | CurrentValue @ $3114.81135579845/Eth | Historical $Price/Eth | Status | ErrCode | Type |
+| ------------------------------------------------------------ | ------- | ------------- | -------------- | ------------------------------------------ | ------------------------------------------ | ----------------- | ------------------------------------------ | ------------------------------------------ | --------------- | ------------- | -------------- | ------------------------------------ | --------------------- | ------ | ------- | ---- |
+| 0x9bb7303af6ce69085abc3d9f4f5b7884a90023fd6e5925cb6ffed9737ebff78c | 9117176 | 1.58E+09      | ######         | 0x0039f22efb07a647557c7c5d17854cfd6d489ef3 | 0x12d66f87a04a9e220743712ce6d9bb1b5616b8fc | 0                 | 0x12d66f87a04a9e220743712ce6d9bb1b5616b8fc | 0x0039f22efb07a647557c7c5d17854cfd6d489ef3 | 0               | 0.1           | 311.4811       | 132.68                               | 0                     |        | call    |      |
 
-   服务器，+拼接
+### 1. Mixing Data Preparation-英
 
-   
+#### RawData Collection:
+
+Run [Geth](https://geth.ethereum.org/) to synchronize Ethereum blockchain data, and utilize [EthereumETL](https://ethereum-etl.readthedocs.io/) to parse the data. By matching against contract address sets, extract the raw datasets for Tornado Cash and ENS respectively. Sample raw data is shown below。
+
+**external transaction example：**
+
+| lockNumber | timestamp | transactionHash                                              | from                                       | to                                         | toCreate | fromIsContract | toIsContract | value | gasLimit | gasPrice | gasUsed | callingFunction | isError | eip2718type | baseFeePerGas | maxFeePerGas | maxPriorityFeePerGas |
+| ---------- | --------- | ------------------------------------------------------------ | ------------------------------------------ | ------------------------------------------ | -------- | -------------- | ------------ | ----- | -------- | -------- | ------- | --------------- | ------- | ----------- | ------------- | ------------ | -------------------- |
+| 9117152    | 1.58E+09  | 0xcfa3a64a54e096eb23d808fa75f949999ec79eea2a90781c5ef31bc6686ef69a | 0x0039f22efb07a647557c7c5d17854cfd6d489ef3 | 0x12d66f87a04a9e220743712ce6d9bb1b5616b8fc | None     | 0              | 1            | 1E+17 | 1000000  | 1.38E+10 | 981887  | 0xb214faa5      | None    | None        | None          | None         | None                 |
+
+**internal  transaction example：**
+
+| Transaction Hash                                             | Blockno | UnixTimestamp | DateTime (UTC) | ParentTxFrom                               | ParentTxTo                                 | ParentTxETH_Value | From                                       | TxTo                                       | ContractAddress | Value_IN(ETH) | Value_OUT(ETH) | CurrentValue @ $3114.81135579845/Eth | Historical $Price/Eth | Status | ErrCode | Type |
+| ------------------------------------------------------------ | ------- | ------------- | -------------- | ------------------------------------------ | ------------------------------------------ | ----------------- | ------------------------------------------ | ------------------------------------------ | --------------- | ------------- | -------------- | ------------------------------------ | --------------------- | ------ | ------- | ---- |
+| 0x9bb7303af6ce69085abc3d9f4f5b7884a90023fd6e5925cb6ffed9737ebff78c | 9117176 | 1.58E+09      | ######         | 0x0039f22efb07a647557c7c5d17854cfd6d489ef3 | 0x12d66f87a04a9e220743712ce6d9bb1b5616b8fc | 0                 | 0x12d66f87a04a9e220743712ce6d9bb1b5616b8fc | 0x0039f22efb07a647557c7c5d17854cfd6d489ef3 | 0               | 0.1           | 311.4811       | 132.68                               | 0                     |        | call    |      |
+
+#### Transfer Path Restoration-中
+
+我们创新性地将 Tornado Cash 的资金混合操作形式化为六种使用模式：
+
+1. **存款操作**：
+   - **模式 a**：资金直接从存款账户转入混合合约，此类交易可直接从混合合约的外部交易中识别
+   - **模式 b：用户通过调用路由合约的存款功能存入资金，需结合路由合约的外部交易与混合合约的内部交易还原完整转移路径
+2. **提现操作**：
+   - **模式 c**：用户直接从混合合约提取资金
+   - **模式 d**：通过中继器执行提现操作
+   - **模式 e**：通过路由器合约执行提现
+   - **模式 f**：结合中继器和路由器的协同提现机制
+
+**数据处理流程：**
+
+1. **初始数据提取**：
+   基于四个混币池地址匹配真实账本交易（包含真实用户、代理和路由器），通过脚本`get0-transaction.py` 实现
+
+2. **模式匹配**：
+
+   - 模式 a 和 c 可直接从混币合约外部交易提取
+
+   - 模式 d 通过结合混合合约的内部和外部交易还原真实路径
+
+   - 模式 b、e、f 通过代码逻辑处理
+
+     - `interna_blockchain.py`：根据交易哈希链接内部和外部交易
+
+     - `withdraw-replacenew.py`：更新外部交易的 `from` 和 `to` 字段
+
+     - `withdraw-special.py`：筛选特定条件交易
+
+3. **最终输出**：
+   生成还原后的交易路径数据集`6_pattern.xlsx`
 
 
-   
+
+#### Label Account Extraction AND Ground-Truth Dataset Construction-中
+
+鉴于 ENS 原始数据集规模庞大，现提供一种基于区块链浏览器数据的轻量级标签提取方法：
+
+**（1）基于 ENS 控制器的账户关联启发式方法 (ENS Controller-based Account Correlation Heuristic)**
+
+1. **数据获取：** 构建自定义查询语句，调用 Dune Analytics 公开数据库（[Dune 查询：4060770](https://dune.com/queries/4060770)），获取指定日期所有 ENS 域名所有者的地址列表。
+2. **地址匹配：** 将获取的 ENS 所有者地址与真实的混合账户集进行匹配。
+3. **交集处理：** 匹配成功的交集地址存储在 `ens-common_data.xlsx` 文件中。
+4. **域名爬取：** 对于交集列表中的每个地址 `{address}`，使用脚本 `ENS_Controller-based.py` 访问 ENS 应用页面（[https://app.ens.domains/{address}](https://app.ens.domains/%7Baddress%7D)），爬取其特定条件下的关联域名。
+
+**（2）基于 ENS 续费的账户关联启发式方法 (ENS Renewal-based Account Correlation Heuristic)**
+
+1. **交易数据获取：** 从 Etherscan 下载指定日期发生的 ENS 批量续费交易（Bulk Renewal transactions）。
+2. **数据清洗与匹配：** 清洗交易数据后，将其与真实的交易账户集进行匹配。
+3. **交易详情查询：** 利用匹配交易的哈希值（Hash）和区块号（Block Number），构建自定义查询语句调用 Dune Analytics 公开数据库（[Dune 查询：4095696](https://dune.com/queries/4095696)），获取交易的输入数据（`data` 字段）。
+4. **数据解码：** 使用脚本 `decoding.py` 解码获取的 `data` 字段。
+5. **域名处理：** 使用脚本 `Split_DecodeDomain.py` 将解码后的域名拆分为指定格式。
+6. **域名信息爬取：** 将**方法(1)爬取的域名**和**方法(2)步骤(5)处理的域名**合并，输入脚本 `ENS_Renewal-based.py`。该脚本访问 ENS 应用域名管理页面（格式：[https://app.ens.domains/{域名}?tab=ownership](https://app.ens.domains/%7B域名%7D?tab=ownership)），爬取每个域名的管理者（Manager）和所有者（Owner）地址。
+7. **数据清洗与去重：** 使用脚本 `clean_ens2.py` **对上述所有爬取到的管理者/所有者地址**进行统一清洗和去重。
+8. **最终匹配：** 使用脚本 `matching_difDEorWI.py` **将清洗后的完整地址集**与真实的混合用户集进行匹配，最终得到真值集（Ground Truth Dataset）。
+
+
+
+#### Transfer Path Restoration-英
+
+We innovatively formalize Tornado Cash's fund mixing operations into six usage patterns:
+
+1. **Deposit Operations**:
+   - **Pattern a** : Funds transfer directly from deposit accounts to mixing contracts. These transactions are identifiable directly from mixing contracts' external transactions.
+   - **Pattern b **: Users deposit funds by invoking router contracts' deposit functions, requiring reconstruction of full transfer paths by combining router contracts' external transactions with mixing contracts' internal transactions.
+2. **Withdrawal Operations**:
+   - **Pattern c**: Users withdraw funds directly from mixing contracts.
+   - **Pattern d**: Users transfer funds to relayer accounts, which then initiate withdrawal transactions. Mixing contracts distribute mixed funds to withdrawal accounts and fees to relayers.
+   - **Pattern e**: Withdrawals processed through router contracts.
+   - **Pattern f **: Collaborative withdrawal mechanism combining relayers and routers.
+
+**Data Processing Pipeline:**
+
+1. **Initial Data Extraction**:
+   Match real ledger transactions (including users, agents, routers) based on four mixing pool addresses using `get0-transaction.py`.
+
+2. **Pattern Matching**:
+
+   - Patterns a & c extracted directly from mixing contracts' external transactions
+
+   - Pattern d paths reconstructed by combining internal/external transactions
+
+   - Patterns b, e, f processed through code logic
+
+     - interna_blockchain.py`: Link internal/external transactions by hash
+
+     - `withdraw-replacenew.py`: Update `from` and `to` fields in external transactions
+
+     - `withdraw-special.py`: Filter transactions meeting specific criteria
+
+3. **Final Output**:
+   Generated reconstructed transaction path dataset `6_pattern.xlsx`
+
+
+
+#### Label Account Extraction AND Ground-Truth Dataset Construction-英
+
+Given the massive size of the raw ENS dataset, a lightweight label extraction method leveraging blockchain explorer data is provided:
+
+**（1）ENS Controller-based Account Correlation Heuristic**
+
+1. **Data Acquisition:** Construct custom queries to call the Dune Analytics public database ([Dune Query: 4060770](https://dune.com/queries/4060770)), retrieving a list of addresses for all ENS domain owners on the specified date(s).
+2. **Address Matching:** Match the retrieved ENS owner addresses against the set of genuine mixed accounts.
+3. **Intersection Handling:** Store the successfully matched intersection addresses in the file `ens-common_data.xlsx`.
+4. **Domain Crawling:** For each address `{address}` in the intersection list, use the script `ENS_Controller-based.py` to access the ENS app page ([https://app.ens.domains/{address}](https://app.ens.domains/%7Baddress%7D)) and crawl the associated domain names under specific conditions.
+
+**（2）ENS Renewal-based Account Correlation Heuristic**
+
+1. **Transaction Data Acquisition:** Download ENS Bulk Renewal transactions occurring on the specified date(s) from Etherscan.
+2. **Data Cleaning & Matching:** Clean the transaction data and match it against the genuine transaction account set.
+3. **Transaction Detail Query:** Using the transaction hash and block number of matched transactions, construct custom queries to call the Dune Analytics public database ([Dune Query: 4095696](https://dune.com/queries/4095696)), retrieving the transaction input data (`data` field).
+4. **Data Decoding:** Decode the retrieved `data` field using the script `decoding.py`.
+5. **Domain Processing:** Process the decoded domain names into the specified format using the script `Split_DecodeDomain.py`.
+6.  **Domain Info Crawling:** Combine **domains crawled from Method (1)** and **domains processed in Step (5) of Method (2)**, then feed them into the script `ENS_Renewal-based.py`. This script accesses the ENS app domain management page (format: [https://app.ens.domains/{domain}?tab=ownership](https://app.ens.domains/%7Bdomain%7D?tab=ownership)) to crawl manager and owner addresses for each domain.
+7. **Data Cleaning & Deduplication:** Use the script `clean_ens2.py` to **clean and deduplicate all crawled manager/owner addresses from the combined dataset**.
+8. **Final Matching:** Use the script `matching_difDEorWI.py` to **match the consolidated cleaned address set** against the genuine mixed user set, yielding the final ground truth dataset.
+
+
+
+### 2.Mixing Transfer Graph Construction-中
+
+#### 图结构
+
+混合数据图MDG，是一个有向图
+$$
+\mathcal{G}_{D}=(\mathcal{V}_{C},\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
+$$
+混合转移图MTG，有向图
+$$
+\mathcal{G}_{T}=(\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{UU},\mathcal{E}_{UN})
+$$
+
+#### 特征及降维
+
+原始节点特征有100维，包括模式、数量、时间和金额四类。在对这些特征进行标准化后，我们根据皮尔逊相关系数和方差膨胀因子（VIF）识别并删除冗余项。对剩余的75维特征进行主成分分析（PCA），最终输出32维特征，以表示原始特征中最有价值的方面。
+
+### 2.Mixing Transfer Graph Construction-英
+
+#### Graph Structure
+
+Mixing Data Graph is a directed graph
+$$
+\mathcal{G}_{D}=(\mathcal{V}_{C},\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
+$$
+Mixing Transfer Graph is a directed graph
+$$
+\mathcal{G}_{T}=(\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{UU},\mathcal{E}_{UN})
+$$
+
+#### Features and dimensionality reduction
+
+The original node features with 100 dimensions, including four categories: pattern, quantity, time, and amount. After standardizing these features, we identify and delete redundant items based on the Pearson correlation coefficient and variance inflation factor (VIF). Principal component analysis (PCA) is applied to the remaining 75-dimensional features, which finally outputs 32-dimensional features to represent the most informative aspects
+of the original features.
+
+### 3. Mixing Accounts Correlation
+
+code/LASC
+
+```python
+python main.py
+```
+
