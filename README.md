@@ -200,12 +200,8 @@ $$
 $$
 
 $$
-\mathcal{E}_{CU} \quad \mathcal{E}_{UU} \quad \mathcal{E}_{DW}
-$$
-
-$$
 \mathcal{G}_D =
-(\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N,\mathcal{E}_{ CU })
+(\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N,\mathcal{E}_{\mathrm{CU}})
 $$
 
 where $\mathcal{V}_C$, $\mathcal{V}_U$, and $\mathcal{V}_N$ are the account sets of Tornado Cash mixing contracts, mixing users, and their corresponding neighbors.
@@ -268,6 +264,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
