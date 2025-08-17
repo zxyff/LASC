@@ -188,6 +188,20 @@ ORDER BY
 
 #### Graph Structure
 
+
+\begin{definition}[Mixing Data Graph]
+    MDG is a directed graph $\mathcal{G}_\emph{D} = 
+    (\mathcal{V}_\emph{C}, \mathcal{V}_\emph{U}, \mathcal{V}_\emph{N}, \mathcal{E}_\emph{CU}, \mathcal{E}_\emph{UU}, \mathcal{E}_\emph{UN}, \mathcal{E}_\emph{DW})$, 
+    where $\mathcal{V}_\emph{C}$, $\mathcal{V}_\emph{U}$, $\mathcal{V}_\emph{N}$ are the account sets of Tornado Cash mixing contracts, mixing users and their corresponding neighbors.
+    $\mathcal{E}_\emph{CU}$, $\mathcal{E}_\emph{UU}$, and $\mathcal{E}_\emph{UN}$ are three directed edge sets, which reflect the transactions between mixing contracts and mixing users, the transactions between mixing users, as well as the transactions between mixing users and their relevant neighbors, where $\mathcal{E}_\emph{CU} =\{(\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl},\emph{gp},$ 
+    $\emph{gu}) | \emph{v}_\emph{i} \in \mathcal{V}_\emph{C}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\} \cup  \{(\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu}) | \emph{v}_\emph{i} \in \mathcal{V}_\emph{U}, \emph{v}_\emph{j}\in$ 
+    $\mathcal{V}_\emph{C}\}$, 
+    $\mathcal{E}_\emph{UU}= \{ (\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu}) | \emph{v}_\emph{i},\emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\}$, 
+    $\mathcal{E}_\emph{UN} = \{(\emph{v}_\emph{i},$ $\emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu}) | \emph{v}_\emph{i} \in \mathcal{V}_\emph{N}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\} \cup \{(\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu})$ $| \emph{v}_\emph{i} \in \mathcal{V}_\emph{U}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{N}\}$. 
+    $\mathcal{E}_\emph{DW} = \{(\emph{v}_\emph{i}, \emph{v}_\emph{j}) | \emph{v}_\emph{i}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\}$ is also a directed edge set, where each element refers to the association between deposit and withdrawal accounts of mixing users obtained in Section \ref{subsubsec:Ground-Truth_Dataset_Construction}.
+\end{definition}
+
+
 Mixing Data Graph is a directed graph
 $$
 \mathcal{G}_{D}=(\mathcal{V}_{C},\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
@@ -201,42 +215,7 @@ $$
 
 The original node features with 100 dimensions, including four categories: pattern, quantity, time, and amount. After standardizing these features, we identify and delete redundant items based on the Pearson correlation coefficient and variance inflation factor (VIF). Principal component analysis (PCA) is applied to the remaining 75-dimensional features, which finally outputs 32-dimensional features to represent the most informative aspects of the original features.
 
-![image-20250817160735876](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250817160735876.png)
-
-
-\begin{table}[!htb]
-\caption{Original Account Features and Their Interpretation}
-\label{tab:account_feaetures}
-\centering
-\begin{tabular}{p{1cm}p{5.3cm}p{1.2cm}}%{lll}
-\toprule 
-\midrule
-Categories  & Descriptions & Features  \\ \midrule 
-\multirow{2}{*}{Pattern} & Number of total/0.1 ETH/1 ETH/10 ETH/100 ETH mixing transactions for six usage patterns & \multirow{2}{*}{$f_1$ - $f_{30}$} \\
-\midrule
-\multirow{8}{*}{Quantity}& Number of total/deposit/withdrawal transactions for four mixing denominations (Ether) & \multirow{2}{*}{$f_{31}$ - $f_{42}$} \\
-\cmidrule{2-3}
-& Number of deposit/withdrawal transactions & $f_{43}$ - $f_{44}$ \\
-\cmidrule{2-3}
-& Number of non-mixing transactions and neighbor accounts & \multirow{2}{*}{$f_{45}$ - $f_{46}$} \\
-\cmidrule{2-3}
-& Out-degree and in-degree & $f_{47}$ - $f_{48}$ \\
-\midrule
-\multirow{8}{*}{Time} & Timestamp of the first deposit/withdrawal/ non-mixing transaction & \multirow{2}{*}{$f_{49}$ - $f_{51}$} \\
-\cmidrule{2-3}
-& Timestamp of the last deposit/withdrawal/ non-mixing transaction & \multirow{2}{*}{$f_{52}$ - $f_{54}$} \\
-\cmidrule{2-3}
-& Time interval within deposit/withdrawal/non-mixing transactions (maximum, minimum, sum, mean) & \multirow{3}{*}{$f_{55}$ - $f_{66}$} \\
-\midrule
-\multirow{8}{*}{Amount} & Amount of deposit/withdrawal/non-mixing transactions (sum, mean) & \multirow{2}{*}{$f_{67}$ - $f_{72}$} \\
-\cmidrule{2-3}
-& Amount of GasLimit/GasPrice/GasUsed for deposit/withdrawal/non-mixing transactions (maximum, minimum, mean) & \multirow{3}{*}{$f_{73}$ - $f_{99}$} \\
-\cmidrule{2-3}
-& balance & $f_{100}$ \\
-\bottomrule \midrule[0.5pt]
-\end{tabular}
-\label{tab:notations}
-\end{table}
+![Features](images/FEATURES.png)
 
 ### 3. Mixing Accounts Correlation
 
@@ -245,6 +224,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
