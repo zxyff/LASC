@@ -201,6 +201,41 @@ The original node features with 100 dimensions, including four categories: patte
 
 ![image-20250817160735876](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250817160735876.png)
 
+
+\begin{table}[!htb]
+\caption{Original Account Features and Their Interpretation}
+\label{tab:account_feaetures}
+\centering
+\begin{tabular}{p{1cm}p{5.3cm}p{1.2cm}}%{lll}
+\toprule 
+\midrule
+Categories  & Descriptions & Features  \\ \midrule 
+\multirow{2}{*}{Pattern} & Number of total/0.1 ETH/1 ETH/10 ETH/100 ETH mixing transactions for six usage patterns & \multirow{2}{*}{$f_1$ - $f_{30}$} \\
+\midrule
+\multirow{8}{*}{Quantity}& Number of total/deposit/withdrawal transactions for four mixing denominations (Ether) & \multirow{2}{*}{$f_{31}$ - $f_{42}$} \\
+\cmidrule{2-3}
+& Number of deposit/withdrawal transactions & $f_{43}$ - $f_{44}$ \\
+\cmidrule{2-3}
+& Number of non-mixing transactions and neighbor accounts & \multirow{2}{*}{$f_{45}$ - $f_{46}$} \\
+\cmidrule{2-3}
+& Out-degree and in-degree & $f_{47}$ - $f_{48}$ \\
+\midrule
+\multirow{8}{*}{Time} & Timestamp of the first deposit/withdrawal/ non-mixing transaction & \multirow{2}{*}{$f_{49}$ - $f_{51}$} \\
+\cmidrule{2-3}
+& Timestamp of the last deposit/withdrawal/ non-mixing transaction & \multirow{2}{*}{$f_{52}$ - $f_{54}$} \\
+\cmidrule{2-3}
+& Time interval within deposit/withdrawal/non-mixing transactions (maximum, minimum, sum, mean) & \multirow{3}{*}{$f_{55}$ - $f_{66}$} \\
+\midrule
+\multirow{8}{*}{Amount} & Amount of deposit/withdrawal/non-mixing transactions (sum, mean) & \multirow{2}{*}{$f_{67}$ - $f_{72}$} \\
+\cmidrule{2-3}
+& Amount of GasLimit/GasPrice/GasUsed for deposit/withdrawal/non-mixing transactions (maximum, minimum, mean) & \multirow{3}{*}{$f_{73}$ - $f_{99}$} \\
+\cmidrule{2-3}
+& balance & $f_{100}$ \\
+\bottomrule \midrule[0.5pt]
+\end{tabular}
+\label{tab:notations}
+\end{table}
+
 ### 3. Mixing Accounts Correlation
 
 code/LASC
@@ -208,6 +243,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
