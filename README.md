@@ -199,6 +199,11 @@ $$
 (\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N,\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
 $$
 
+$$
+\mathcal{G}_D =
+(\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N)
+$$
+
 where $\mathcal{V}_C$, $\mathcal{V}_U$, and $\mathcal{V}_N$ are the account sets of Tornado Cash mixing contracts, mixing users, and their corresponding neighbors.
 
 
@@ -259,6 +264,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
