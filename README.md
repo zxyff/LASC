@@ -192,62 +192,15 @@ ORDER BY
 
 ## Mixing Data Graph (MDG)
 
-Mixing Data Graph (MDG) is a directed graph:
+<div align="center">
+  <img src="images/mdg.png" alt="MDG">
+</div>
 
-$$
-\mathcal{G}_D =
-(\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N,\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
-$$
+## Mixing Transfer Graph (MTG)
 
-$$
-\mathcal{G}_D =
-(\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N,\mathcal{E}_{\mathrm{CU}})
-$$
-
-where $\mathcal{V}_C$, $\mathcal{V}_U$, and $\mathcal{V}_N$ are the account sets of Tornado Cash mixing contracts, mixing users, and their corresponding neighbors.
-
-
-- $\mathcal{E}_{CU}$: transactions between contracts and users  
-- $\mathcal{E}_{UU}$: transactions between users  
-- $\mathcal{E}_{UN}$: transactions between users and their neighbors  
-- $\mathcal{E}_{DW}$: association edges between deposit and withdrawal accounts  
-
-**Formally:**
-
-$$
-\mathcal{E}_{CU} = 
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i \in \mathcal{V}_C, v_j \in \mathcal{V}_U \} 
-\cup 
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i \in \mathcal{V}_U, v_j \in \mathcal{V}_C\}
-$$
-
-$$
-\mathcal{E}_{UU} =
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i, v_j \in \mathcal{V}_U\}
-$$
-
-$$
-\mathcal{E}_{UN} =
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i \in \mathcal{V}_N, v_j \in \mathcal{V}_U\}
-\cup
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i \in \mathcal{V}_U, v_j \in \mathcal{V}_N\}
-$$
-
-$$
-\mathcal{E}_{DW} =
-\{(v_i, v_j) \mid v_i, v_j \in \mathcal{V}_U\}
-$$
-
-
-
-Mixing Data Graph is a directed graph
-$$
-\mathcal{G}_{D}=(\mathcal{V}_{C},\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
-$$
-Mixing Transfer Graph is a directed graph
-$$
-\mathcal{G}_{T}=(\mathcal{V}_{U},\mathcal{V}_{N},\mathcal{E}_{UU},\mathcal{E}_{UN})
-$$
+<div align="center">
+  <img src="images/MTG.png" alt="MTG">
+</div>
 
 #### Features and dimensionality reduction
 
@@ -264,6 +217,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
