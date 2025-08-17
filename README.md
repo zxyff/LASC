@@ -190,13 +190,13 @@ ORDER BY
 
 #### Graph Structure
 
-## Mixing Data Graph (MDG)
+##### Mixing Data Graph (MDG)
 
 <div align="center">
   <img src="images/MDG.png" alt="MDG">
 </div>
 
-## Mixing Transfer Graph (MTG)
+##### Mixing Transfer Graph (MTG)
 
 <div align="center">
   <img src="images/MTG.png" alt="MTG">
@@ -217,6 +217,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
