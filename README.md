@@ -89,7 +89,9 @@ Six usage patterns of mixing implementation on Tornado Cash are formalized to re
    - **Pattern e**: Users directly interact with the old proxy/proxy/router contracts for withdrawal.
    - **Pattern f**: Relayer accounts on behalf of users interact with the old proxy/proxy/router contracts to make withdrawals.
 
-![Six patterns](images/6pattern.png)
+<div align="center">
+  <img src="images/6pattern.png" alt="Six patterns" width="400">
+</div>
 
 **Data Processing Pipeline:**
 
@@ -188,18 +190,47 @@ ORDER BY
 
 #### Graph Structure
 
+## Definition: Mixing Data Graph
 
-\begin{definition}[Mixing Data Graph]
-    MDG is a directed graph $\mathcal{G}_\emph{D} = 
-    (\mathcal{V}_\emph{C}, \mathcal{V}_\emph{U}, \mathcal{V}_\emph{N}, \mathcal{E}_\emph{CU}, \mathcal{E}_\emph{UU}, \mathcal{E}_\emph{UN}, \mathcal{E}_\emph{DW})$, 
-    where $\mathcal{V}_\emph{C}$, $\mathcal{V}_\emph{U}$, $\mathcal{V}_\emph{N}$ are the account sets of Tornado Cash mixing contracts, mixing users and their corresponding neighbors.
-    $\mathcal{E}_\emph{CU}$, $\mathcal{E}_\emph{UU}$, and $\mathcal{E}_\emph{UN}$ are three directed edge sets, which reflect the transactions between mixing contracts and mixing users, the transactions between mixing users, as well as the transactions between mixing users and their relevant neighbors, where $\mathcal{E}_\emph{CU} =\{(\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl},\emph{gp},$ 
-    $\emph{gu}) | \emph{v}_\emph{i} \in \mathcal{V}_\emph{C}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\} \cup  \{(\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu}) | \emph{v}_\emph{i} \in \mathcal{V}_\emph{U}, \emph{v}_\emph{j}\in$ 
-    $\mathcal{V}_\emph{C}\}$, 
-    $\mathcal{E}_\emph{UU}= \{ (\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu}) | \emph{v}_\emph{i},\emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\}$, 
-    $\mathcal{E}_\emph{UN} = \{(\emph{v}_\emph{i},$ $\emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu}) | \emph{v}_\emph{i} \in \mathcal{V}_\emph{N}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\} \cup \{(\emph{v}_\emph{i}, \emph{v}_\emph{j}, \emph{ts}, \emph{tv}, \emph{gl}, \emph{gp}, \emph{gu})$ $| \emph{v}_\emph{i} \in \mathcal{V}_\emph{U}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{N}\}$. 
-    $\mathcal{E}_\emph{DW} = \{(\emph{v}_\emph{i}, \emph{v}_\emph{j}) | \emph{v}_\emph{i}, \emph{v}_\emph{j} \in \mathcal{V}_\emph{U}\}$ is also a directed edge set, where each element refers to the association between deposit and withdrawal accounts of mixing users obtained in Section \ref{subsubsec:Ground-Truth_Dataset_Construction}.
-\end{definition}
+**Mixing Data Graph (MDG)** is a directed graph 
+
+$$
+\mathcal{G}_D = (\mathcal{V}_C, \mathcal{V}_U, \mathcal{V}_N, 
+\mathcal{E}_{CU}, \mathcal{E}_{UU}, \mathcal{E}_{UN}, \mathcal{E}_{DW}),
+$$
+
+where $\mathcal{V}_C$, $\mathcal{V}_U$, $\mathcal{V}_N$ are the account sets of Tornado Cash mixing contracts, mixing users and their corresponding neighbors.  
+
+- $\mathcal{E}_{CU}$: transactions between contracts and users  
+- $\mathcal{E}_{UU}$: transactions between users  
+- $\mathcal{E}_{UN}$: transactions between users and their neighbors  
+- $\mathcal{E}_{DW}$: association edges between deposit and withdrawal accounts  
+
+Formally:
+
+$$
+\mathcal{E}_{CU} = \{(v_i, v_j, ts, tv, gl, gp, gu) 
+\mid v_i \in \mathcal{V}_C, v_j \in \mathcal{V}_U\} \cup 
+\{(v_i, v_j, ts, tv, gl, gp, gu) 
+\mid v_i \in \mathcal{V}_U, v_j \in \mathcal{V}_C\}
+$$
+
+$$
+\mathcal{E}_{UU} = \{(v_i, v_j, ts, tv, gl, gp, gu) 
+\mid v_i, v_j \in \mathcal{V}_U\}
+$$
+
+$$
+\mathcal{E}_{UN} = \{(v_i, v_j, ts, tv, gl, gp, gu) 
+\mid v_i \in \mathcal{V}_N, v_j \in \mathcal{V}_U\} \cup 
+\{(v_i, v_j, ts, tv, gl, gp, gu) 
+\mid v_i \in \mathcal{V}_U, v_j \in \mathcal{V}_N\}
+$$
+
+$$
+\mathcal{E}_{DW} = \{(v_i, v_j) 
+\mid v_i, v_j \in \mathcal{V}_U\}
+$$
 
 
 Mixing Data Graph is a directed graph
@@ -215,7 +246,9 @@ $$
 
 The original node features with 100 dimensions, including four categories: pattern, quantity, time, and amount. After standardizing these features, we identify and delete redundant items based on the Pearson correlation coefficient and variance inflation factor (VIF). Principal component analysis (PCA) is applied to the remaining 75-dimensional features, which finally outputs 32-dimensional features to represent the most informative aspects of the original features.
 
-![Features](images/FEATURES.png)
+<div align="center">
+  <img src="images/FEATURES.png" alt="Features" width="400">
+</div>
 
 ### 3. Mixing Accounts Correlation
 
@@ -224,6 +257,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
