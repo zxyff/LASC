@@ -196,22 +196,8 @@ Mixing Data Graph (MDG) is a directed graph:
 
 $$
 \mathcal{G}_D =
-(\mathcal{V}_C, \mathcal{V}_U,)
+(\mathcal{V}_C, \mathcal{V}_U,\mathcal{V}_N,\mathcal{E}_{CU},\mathcal{E}_{UU},\mathcal{E}_{UN},\mathcal{E}_{DW})
 $$
-
-$$
-\mathcal{G}_D =
-(\mathcal{V}_C, \; \mathcal{V}_U, \; \mathcal{V}_N, \;
- \mathcal{E}_{CU}, \; \mathcal{E}_{UU}, \; \mathcal{E}_{UN}, \; \mathcal{E}_{DW})
-$$
-
-$$
-\mathcal{E}_{CU} = 
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i \in \mathcal{V}_C, v_j \in \mathcal{V}_U \} 
-\cup 
-\{(v_i, v_j, ts, tv, gl, gp, gu) \mid v_i \in \mathcal{V}_U, v_j \in \mathcal{V}_C\}
-$$
-
 
 where $\mathcal{V}_C$, $\mathcal{V}_U$, and $\mathcal{V}_N$ are the account sets of Tornado Cash mixing contracts, mixing users, and their corresponding neighbors.
 
@@ -273,6 +259,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
