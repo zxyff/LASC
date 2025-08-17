@@ -176,8 +176,8 @@ ORDER BY
 
 (6) **Domain Info Crawling:** Combine the **domains crawled from Method 1** and **domains processed in Step (5) of Method 2**, then feed them into the script `ENS_Renewal-based.py`. This script accesses the ENS app domain management page (format: [https://app.ens.domains/{domain}?tab=ownership](https://app.ens.domains/%7Bdomain%7D?tab=ownership)) to crawl manager and owner addresses for each domain.
 
-1. **Data Cleaning & Deduplication:** Use the script `clean_ens2.py` to **clean and deduplicate all crawled manager/owner addresses from the combined dataset**.
-2. **Final Matching:** Use the script `matching_difDEorWI.py` to **match the consolidated cleaned address set** against the genuine mixed user set, yielding the final ground truth dataset.
+（7） **Data Cleaning & Deduplication:** Use the script `clean_ens2.py` to **clean and deduplicate all crawled manager/owner addresses from the combined dataset**.
+（8） **Final Matching:** Use the script `matching_difDEorWI.py` to **match the consolidated cleaned address set** against the genuine mixed user set, yielding the final ground truth dataset.
 
 
 
@@ -207,6 +207,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
