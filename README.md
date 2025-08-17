@@ -89,6 +89,8 @@ Six usage patterns of mixing implementation on Tornado Cash are formalized to re
    - **Pattern e**: Users directly interact with the old proxy/proxy/router contracts for withdrawal.
    - **Pattern f**: Relayer accounts on behalf of users interact with the old proxy/proxy/router contracts to make withdrawals.
 
+![Six patterns](images/6pattern.png)
+
 **Data Processing Pipeline:**
 
 1. **Initial Data Extraction**:
@@ -243,6 +245,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
