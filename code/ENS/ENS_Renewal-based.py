@@ -19,6 +19,6 @@ for i in df.values:
         uids = ''.join(tr.xpath('./@data-testid'))
         owner = ''.join(tr.xpath('.//button[@data-testid="role-tag-owner"]/div/text()'))
         manger = ''.join(tr.xpath('.//button[@data-testid="role-tag-manager"]/div/text()'))
-        with open('数据.csv', 'a+', encoding='utf-8-sig', newline='') as f:
+        with open('result.csv', 'a+', encoding='utf-8-sig', newline='') as f:
             f = csv.writer(f)
             f.writerow(list(i) + [uids, owner, manger])

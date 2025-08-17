@@ -6,7 +6,7 @@ import csv
 import pandas as pd
 from lxml import etree
 from DrissionPage._pages.chromium_page import ChromiumPage
-from loguru import logger
+
 page = ChromiumPage()
 
 df = pd.read_excel('ens-common_data.xlsx')
@@ -39,7 +39,7 @@ for i in df.values:
                         list(i) + [link]
                     )
         if link == 'X':
-            with open('信息.csv', 'a+', encoding='utf-8-sig', newline='') as fi:
+            with open('result2.csv', 'a+', encoding='utf-8-sig', newline='') as fi:
                 fi = csv.writer(fi)
                 fi.writerow(
                     list(i) + [link]
