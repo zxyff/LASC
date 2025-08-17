@@ -99,8 +99,10 @@ Six usage patterns of mixing implementation on Tornado Cash are formalized to re
    - Patterns a & c extracted directly from mixing contracts' external transactions
 
    - Pattern d paths reconstructed by combining internal/external transactions
+  
+   - Pattern B restores the true transfer path by integrating the router's external transactions with the hybrid contract's internal transactions.
 
-   - Patterns b, e, f processed through
+   - Patterns e, f processed through
 
      - interna_blockchain.py`: Link internal/external transactions by transaction hash
 
@@ -205,5 +207,6 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
