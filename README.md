@@ -193,13 +193,13 @@ ORDER BY
 ## Mixing Data Graph (MDG)
 
 <div align="center">
-  <img src="images/mdg.png" alt="MDG">
+  <img src="images/mdg.png" alt="MDG" width="500">
 </div>
 
 ## Mixing Transfer Graph (MTG)
 
 <div align="center">
-  <img src="images/MTG.png" alt="MTG">
+  <img src="images/MTG.png" alt="MTG" width="500">
 </div>
 
 #### Features and dimensionality reduction
@@ -217,6 +217,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
