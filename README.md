@@ -196,7 +196,7 @@ Mixing Data Graph (MDG) is a directed graph:
 
 $$
 \mathcal{G}_D =
-(\mathcal{V}_C, )
+(\mathcal{V}_C, \mathcal{V}_U,)
 $$
 
 $$
@@ -273,6 +273,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
