@@ -82,12 +82,12 @@ Six usage patterns of mixing implementation on Tornado Cash are formalized to re
 
 1. **Deposit Operations**:
    - **Pattern a** : Funds transfer directly from deposit accounts to mixing contracts. These transactions are identifiable easily from mixing contracts' external transactions.
-   - **Pattern b **: Users deposit funds by invoking the router contract's deposit function. It requires reconstructing transfer paths by combining the external transactions of the router contract with the internal transactions of mixing contracts.
+   - **Pattern b**: Users deposit funds by invoking the router contract's deposit function. It requires reconstructing transfer paths by combining the external transactions of the router contract with the internal transactions of mixing contracts.
 2. **Withdrawal Operations**:
    - **Pattern c**: Users withdraw funds directly from mixing contracts.
    - **Pattern d**: The relayer account set by the user initiates a withdrawal transaction, leading the mixing contract to pay the mixing fund and the reward to the withdrawal account and the relayer account, respectively.
    - **Pattern e**: Users directly interact with the old proxy/proxy/router contracts for withdrawal.
-   - **Pattern f **: Relayer accounts on behalf of users interact with the old proxy/proxy/router contracts to make withdrawals.
+   - **Pattern f**: Relayer accounts on behalf of users interact with the old proxy/proxy/router contracts to make withdrawals.
 
 **Data Processing Pipeline:**
 
@@ -205,4 +205,5 @@ code/LASC
 ```python
 python main.py
 ```
+
 
