@@ -190,13 +190,11 @@ ORDER BY
 
 #### Graph Structure
 
-##### Mixing Transfer Graph (MTG)
+**Mixing Transfer Graph (MTG)** is a directed graph:
 
-A **Mixing Transfer Graph (MTG)** is a directed graph:
-
-$$
-\mathcal{G}_T = (\mathcal{V}_U, \mathcal{V}_N, \mathcal{E}_{UU}, \mathcal{E}_N)
-$$
+$
+\mathcal{G}_T = (\mathcal{V}_U, \mathcal{V}_N, \mathcal{E}_{UU}, \mathcal{E}_{UN})
+$
 
 - $\mathcal{V}_U$ : the set of **mixing accounts**  
 - $\mathcal{E}_{UU}$ : the set of **association edges** between mixing accounts  
@@ -227,6 +225,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
