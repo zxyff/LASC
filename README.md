@@ -190,17 +190,29 @@ ORDER BY
 
 #### Graph Structure
 
-##### Mixing Data Graph (MDG)
-
-<div align="center">
-  <img src="images/MDG.png" alt="MDG">
-</div>
-
 ##### Mixing Transfer Graph (MTG)
 
-<div align="center">
-  <img src="images/MTG.png" alt="MTG">
-</div>
+## Definition: Mixing Transfer Graph (MTG)
+
+A **Mixing Transfer Graph (MTG)** is a directed graph:
+
+$$
+\mathcal{G}_T = (\mathcal{V}_U, \mathcal{V}_N, \mathcal{E}_U, \mathcal{E}_N)
+$$
+
+- $\mathcal{V}_U$ : the set of **mixing accounts**  
+- $\mathcal{E}_{UU}$ : the set of **association edges** between mixing accounts  
+- $\mathcal{V}_N$ : the set of **neighbor accounts**  
+- $\mathcal{E}_{UN}$ : the set of **transaction edges** between mixing accounts and neighbor accounts  
+
+We denote by $\mathbf{A}$ the adjacency matrix and by $\mathcal{X}_U$ the feature matrix of $\mathcal{G}_T$, where:
+
+$$
+\mathcal{X}_U \in \mathbb{R}^{|\mathcal{V}_U| \times z}
+$$
+
+and $z$ is the number of feature dimensions.
+
 
 #### Features and dimensionality reduction
 
@@ -217,6 +229,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
