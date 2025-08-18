@@ -192,8 +192,6 @@ ORDER BY
 
 ##### Mixing Transfer Graph (MTG)
 
-## Definition: Mixing Transfer Graph (MTG)
-
 A **Mixing Transfer Graph (MTG)** is a directed graph:
 
 $$
@@ -229,6 +227,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
