@@ -204,9 +204,9 @@ $$
 
 We denote by $\mathbf{A}$ the adjacency matrix and by $\mathcal{X}_U$ the feature matrix of $\mathcal{G}_T$, where:
 
-$
+$$
 \mathcal{X}_U \in \mathbb{R}^{|\mathcal{V}_U| \times z}
-$
+$$
 
 and $z$ is the number of feature dimensions.
 
@@ -226,6 +226,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
