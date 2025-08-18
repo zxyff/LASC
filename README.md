@@ -195,7 +195,7 @@ ORDER BY
 A **Mixing Transfer Graph (MTG)** is a directed graph:
 
 $$
-\mathcal{G}_T = (\mathcal{V}_U, \mathcal{V}_N, \mathcal{E}_U, \mathcal{E}_N)
+\mathcal{G}_T = (\mathcal{V}_U, \mathcal{V}_N, \mathcal{E}_{UU}, \mathcal{E}_N)
 $$
 
 - $\mathcal{V}_U$ : the set of **mixing accounts**  
@@ -227,6 +227,7 @@ code/LASC
 ```python
 python main.py
 ```
+
 
 
 
